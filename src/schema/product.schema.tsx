@@ -13,7 +13,6 @@ export type Product = {
     light_image: string;
     dark_image: string;
     description: string;
-    currency: string;
     publisher: {
         name: string;
         external_id: string;
@@ -36,7 +35,7 @@ const productSchema = buildSchema<Product>({
                 required: true,
                 requiredMessage: "You must set a price between 0 and 1000",
                 min: 0,
-                max: 1000
+                max: 20000
             },
             description: "Price with range validation",
             dataType: "number"
@@ -77,24 +76,30 @@ const productSchema = buildSchema<Product>({
             }
         },
         light_image: buildProperty({ // The `buildProperty` method is an utility function used for type checking
-            title: "Image",
+            title: "light-image",
             dataType: "string",
             config: {
                 storageMeta: {
                     mediaType: "image",
-                    storagePath: "images",
-                    acceptedFiles: ["image/*"]
+                    storagePath: "images/light",
+                    acceptedFiles: ["images/light/*"],
+                    metadata: {
+                        cacheControl: "max-age=1000000"
+                    }
                 }
             }
         }),
         dark_image: buildProperty({ // The `buildProperty` method is an utility function used for type checking
-            title: "Image",
+            title: "dark-image",
             dataType: "string",
             config: {
                 storageMeta: {
                     mediaType: "image",
-                    storagePath: "images",
-                    acceptedFiles: ["image/*"]
+                    storagePath: "images/dark",
+                    acceptedFiles: ["images/dark/*"],
+                    metadata: {
+                        cacheControl: "max-age=1000000"
+                    }
                 }
             }
         }),
@@ -123,19 +128,6 @@ const productSchema = buildSchema<Product>({
         expires_on: {
             title: "Expires on",
             dataType: "timestamp"
-        },
-        currency: {
-            dataType: "string",
-            title: "Currency",
-            config: {
-                enumValues: {
-                    EUR: "Euros",
-                    DOL: "Dollars"
-                }
-            },
-            validation: {
-                required: true
-            }
         },
     }
 });

@@ -202,12 +202,6 @@ export function ProductPreview({ productValues }: { productValues: EntityValues<
                         }}>
                 {productValues.name}
             </Typography>
-
-            <Typography variant="body2"
-                        color="textSecondary"
-                        component="div">
-                {productValues.price} {productValues.currency}
-            </Typography>
         </CardContent>
     </CardActionArea>;
 
